@@ -1,0 +1,13 @@
+ja:
+  version_burndown_charts: "バーンダウンチャート"
+  version_burndown_charts_view: "バーンダウンチャートの表示"
+
+  version_burndown_charts_xlegend: "日時"
+  version_burndown_charts_ylegend: "時間(h)"
+  version_burndown_charts_estimated_line: "予想"
+  version_burndown_charts_spent_line: "実績"
+
+  version_burndown_charts_project_nod_found: "プロジェクトが存在しません。"
+  version_burndown_charts_version_not_found: "プロジェクトにバージョンが存在しません。"
+  version_burndown_charts_issues_not_found: "バージョンにチケットが存在しないか、開始日が設定されたチケットが見つかりません。"
+  version_burndown_charts_time_entries_not_found: "チケットに時間が記録されていません。"

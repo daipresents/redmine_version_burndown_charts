@@ -1,0 +1,19 @@
+<% html_title "#{@version.name} - " + l(:version_burndown) -%>
+<% content_for :header_tags do %>
+  <%= javascript_include_tag '/plugin_assets/open_flash_chart/javascripts/swfobject.js' %>
+<% end %>
+
+<div style="width:800px;height:450px;overflow:auto;">
+  <%= @graph %>
+</div>
+
+<% content_for :sidebar do -%>
+  <h3><%= l(:field_version) %></h3>
+  <ul>
+    <% @project.versions.find_all_by_status('open').each do |version| -%>
+      <li<%= %Q[ class="selected"] if @version.id == version.id %>>
+        <%= link_to(version.name, :controller => 'version_burndown_charts', :action => 'index', :project_id => @project.id, :version_id => version.id.to_s) %>
+      </li>
+    <% end -%>
+  </ul>
+<% end -%>
