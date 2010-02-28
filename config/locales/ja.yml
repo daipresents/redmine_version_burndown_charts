@@ -10,9 +10,12 @@ ja:
   version_burndown_charts_spent_line: "詳細実績ライン"
 
   version_burndown_charts_versions: "バージョン"
+  version_burndown_charts_versions_name: "バージョン名"
+  version_burndown_charts_versions_open: "進行中"
+  version_burndown_charts_versions_locked: "ロック中"
+  version_burndown_charts_versions_closed: "完了"
   version_burndown_charts_version_info: "バージョン情報"
   version_burndown_charts_estimated_hours: "予想:{{estimated_hours}}h"
-  version_burndown_charts_spent_hours: "実績:{{spent_hours}}h"
 
   version_burndown_charts_start_date: "開始日:{{start_date}}"
   version_burndown_charts_due_date: "期日:{{due_date}}"
@@ -26,4 +29,4 @@ ja:
   version_burndown_charts_version_due_date_not_found: "バージョンに期限が設定されていません。"
   version_burndown_charts_version_estimated_hours_not_found: "バージョンの予定工数が設定されていません。"
   version_burndown_charts_issues_not_found: "バージョンにチケットが存在しません。"
-  version_burndown_charts_time_entries_not_found: "チケットに時間が記録されていません。"
+  version_burndown_charts_issues_start_date_not_found: "バージョン内のチケットに開始日が設定されていません。"

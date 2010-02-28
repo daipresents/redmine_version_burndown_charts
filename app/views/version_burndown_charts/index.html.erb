@@ -7,6 +7,7 @@
 
 <% content_for :sidebar do -%>
   <h3><%= l(:version_burndown_charts_version_info) %></h3>
+  <div><strong><%=l(:version_burndown_charts_versions_name)%>:<%=link_to(@version.name, :controller => 'versions', :action => 'show', :id => @version.id) %></strong></div>
   <div><%=l(:version_burndown_charts_estimated_hours, :estimated_hours => @version.estimated_hours)%></div>
   <div><%=l(:version_burndown_charts_spent_hours, :spent_hours => @version.spent_hours)%></div>
   <div><%=l(:version_burndown_charts_issues_count, :issues_count => @version.issues_count)%></div>
@@ -16,9 +17,27 @@
   <div><%=l(:version_burndown_charts_due_date, :due_date => @version.due_date)%></div>
   <div><%=l(:version_burndown_charts_sprint_range, :sprint_range => @sprint_range)%></div>
 
-  <h3><%= l(:version_burndown_charts_versions) %></h3>
+  <h4><%= l(:version_burndown_charts_versions_open) %></h4>
   <ul>
     <% @project.versions.find_all_by_status('open').each do |version| -%>
+      <li<%= %Q[ class="selected"] if @version.id == version.id %>>
+        <%= link_to(version.name, :controller => 'version_burndown_charts', :action => 'index', :project_id => @project.id, :version_id => version.id.to_s) %>
+      </li>
+    <% end -%>
+  </ul>
+
+  <h4><%= l(:version_burndown_charts_versions_locked) %></h4>
+  <ul>
+    <% @project.versions.find_all_by_status('locked').each do |version| -%>
+      <li<%= %Q[ class="selected"] if @version.id == version.id %>>
+        <%= link_to(version.name, :controller => 'version_burndown_charts', :action => 'index', :project_id => @project.id, :version_id => version.id.to_s) %>
+      </li>
+    <% end -%>
+  </ul>
+
+  <h4><%= l(:version_burndown_charts_versions_closed) %></h4>
+  <ul>
+    <% @project.versions.find_all_by_status('closed').each do |version| -%>
       <li<%= %Q[ class="selected"] if @version.id == version.id %>>
         <%= link_to(version.name, :controller => 'version_burndown_charts', :action => 'index', :project_id => @project.id, :version_id => version.id.to_s) %>
       </li>
