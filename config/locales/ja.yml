@@ -15,14 +15,17 @@ ja:
   version_burndown_charts_versions_locked: "ロック中"
   version_burndown_charts_versions_closed: "完了"
   version_burndown_charts_version_info: "バージョン情報"
-  version_burndown_charts_estimated_hours: "予想:{{estimated_hours}}h"
 
-  version_burndown_charts_start_date: "開始日:{{start_date}}"
-  version_burndown_charts_due_date: "期日:{{due_date}}"
-  version_burndown_charts_sprint_range: "スプリント期間:{{sprint_range}}日"
+  version_burndown_charts_estimated_hours: "予想:{{estimated_hours}}h"
+  version_burndown_charts_spent_hours: "経過時間:{{spent_hours}}h"
+
   version_burndown_charts_issues_count: "チケット数:{{issues_count}}"
   version_burndown_charts_open_issues_count: "未完了:{{open_issues_count}}"
   version_burndown_charts_closed_issues_count: "完了:{{closed_issues_count}}"
+  
+  version_burndown_charts_start_date: "開始日:{{start_date}}"
+  version_burndown_charts_due_date: "期日:{{due_date}}"
+  version_burndown_charts_sprint_range: "スプリント期間:{{sprint_range}}日"
 
   version_burndown_charts_project_nod_found: "プロジェクトが存在しません。"
   version_burndown_charts_version_not_found: "プロジェクトにバージョンが存在しません。"

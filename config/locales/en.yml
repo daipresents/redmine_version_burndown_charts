@@ -14,16 +14,18 @@ en:
   version_burndown_charts_versions_locked: "Locked"
   version_burndown_charts_versions_closed: "Closed"
   version_burndown_charts_version_info: "Version Information"
-  version_burndown_charts_estimated_hours: "Estimated Hours:{{estimated_hours}}h"
-  version_burndown_charts_spent_hours: "Spent Hours:{{spent_hours}}h"
+  version_burndown_charts_estimated_hours: "Estimated time:{{estimated_hours}}h"
+  version_burndown_charts_spent_hours: "Spent time:{{spent_hours}}h"
+  version_burndown_charts_spent_hours: "Spent hours:{{spent_hours}}h"
+
+  version_burndown_charts_issues_count: "All Issues:{{issues_count}}"
+  version_burndown_charts_open_issues_count: "Open Issues:{{open_issues_count}}"
+  version_burndown_charts_closed_issues_count: "Closed Issues:{{closed_issues_count}}"
 
   version_burndown_charts_start_date: "Start Date:{{start_date}}"
   version_burndown_charts_due_date: "Due Date:{{due_date}}"
   version_burndown_charts_sprint_range: "Sprint Span:{{sprint_range}}days"
-  version_burndown_charts_issues_count: "All Tickets:{{issues_count}}"
-  version_burndown_charts_open_issues_count: "Open Tickets:{{open_issues_count}}"
-  version_burndown_charts_closed_issues_count: "Closed Tickets:{{closed_issues_count}}"
-
+  
   version_burndown_charts_project_nod_found: "Project not found."
   version_burndown_charts_version_not_found: "Version not found in project."
   version_burndown_charts_version_due_date_not_found: "The due date is not set to the version. "
