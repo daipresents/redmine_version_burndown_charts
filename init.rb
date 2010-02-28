@@ -15,5 +15,5 @@ Redmine::Plugin.register :redmine_version_burndown do
   end
 
   menu :project_menu, :version_burndown_charts, { :controller => 'version_burndown_charts', :action => 'index' },
-  :caption => :version_burndown_charts, :after => :roadmap, :param => :project_id
+  :caption => :version_burndown_charts, :after => :activity, :param => :project_id
 end

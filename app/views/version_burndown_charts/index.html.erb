@@ -1,14 +1,22 @@
-<% html_title "#{@version.name} - " + l(:version_burndown) -%>
+<% html_title "#{@version.name} - " + l(:version_burndown_charts) -%>
 <% content_for :header_tags do %>
   <%= javascript_include_tag '/plugin_assets/open_flash_chart/javascripts/swfobject.js' %>
 <% end %>
 
-<div style="width:800px;height:450px;overflow:auto;">
-  <%= @graph %>
-</div>
+<%= @graph %>
 
 <% content_for :sidebar do -%>
-  <h3><%= l(:field_version) %></h3>
+  <h3><%= l(:version_burndown_charts_version_info) %></h3>
+  <div><%=l(:version_burndown_charts_estimated_hours, :estimated_hours => @version.estimated_hours)%></div>
+  <div><%=l(:version_burndown_charts_spent_hours, :spent_hours => @version.spent_hours)%></div>
+  <div><%=l(:version_burndown_charts_issues_count, :issues_count => @version.issues_count)%></div>
+  <div><%=l(:version_burndown_charts_open_issues_count, :open_issues_count => @version.open_issues_count)%>(<%=@open_pourcent%>%)</div>
+  <div><%=l(:version_burndown_charts_closed_issues_count, :closed_issues_count => @version.closed_issues_count)%>(<%=@closed_pourcent%>%)</div>
+  <div><%=l(:version_burndown_charts_start_date, :start_date => @start_date)%></div>
+  <div><%=l(:version_burndown_charts_due_date, :due_date => @version.due_date)%></div>
+  <div><%=l(:version_burndown_charts_sprint_range, :sprint_range => @sprint_range)%></div>
+
+  <h3><%= l(:version_burndown_charts_versions) %></h3>
   <ul>
     <% @project.versions.find_all_by_status('open').each do |version| -%>
       <li<%= %Q[ class="selected"] if @version.id == version.id %>>
