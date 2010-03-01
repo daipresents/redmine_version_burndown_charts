@@ -28,7 +28,7 @@ en:
   
   version_burndown_charts_project_nod_found: "Project not found."
   version_burndown_charts_version_not_found: "Version not found in project."
-  version_burndown_charts_version_due_date_not_found: "The due date is not set to the version. "
-  version_burndown_charts_version_estimated_hours_not_found: "The estimated hours are not set to the version."
-  version_burndown_charts_issues_not_found: "Ticket not found in version."
-  version_burndown_charts_issues_start_date_not_found: "The start date is not set to the ticket in the version."
+  version_burndown_charts_version_due_date_not_found: "Version due date is not set to the version."
+  version_burndown_charts_version_start_date_invalid: "Version start date is late than version due date."
+  version_burndown_charts_issues_not_found: "Ticket not found in version or start date is not set to the ticket."
+  version_burndown_charts_issues_start_date_or_estimated_date_not_found: "The start date or estimated hours is not set to the ticket in the version."

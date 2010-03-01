@@ -29,7 +29,7 @@ ja:
 
   version_burndown_charts_project_nod_found: "プロジェクトが存在しません。"
   version_burndown_charts_version_not_found: "プロジェクトにバージョンが存在しません。"
-  version_burndown_charts_version_due_date_not_found: "バージョンに期限が設定されていません。"
-  version_burndown_charts_version_estimated_hours_not_found: "バージョンの予定工数が設定されていません。"
-  version_burndown_charts_issues_not_found: "バージョンにチケットが存在しません。"
-  version_burndown_charts_issues_start_date_not_found: "バージョン内のチケットに開始日が設定されていません。"
+  version_burndown_charts_version_due_date_not_found: "バージョンに期日が設定されていません。"
+  version_burndown_charts_version_start_date_invalid: "バージョンの期日よりあとに開始日が設定されています。"
+  version_burndown_charts_issues_not_found: "バージョンにチケットが存在しないか、開始日がチケットに設定されていません。"
+  version_burndown_charts_issues_start_date_or_estimated_date_not_found: "バージョン内のチケットに開始日、または予定工数が設定されていません。"

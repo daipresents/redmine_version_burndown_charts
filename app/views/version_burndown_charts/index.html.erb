@@ -3,12 +3,14 @@
   <%= javascript_include_tag '/plugin_assets/open_flash_chart/javascripts/swfobject.js' %>
 <% end %>
 
-<%= @graph %>
+<% unless flash[:error] -%>
+  <%= @graph %>
+<% end -%>
 
 <% content_for :sidebar do -%>
   <h3><%= l(:version_burndown_charts_version_info) %></h3>
   <div><strong><%=l(:version_burndown_charts_versions_name)%>:<%=link_to(@version.name, :controller => 'versions', :action => 'show', :id => @version.id) %></strong></div>
-  <div><%=l(:version_burndown_charts_estimated_hours, :estimated_hours => @version.estimated_hours)%></div>
+  <div><%=l(:version_burndown_charts_estimated_hours, :estimated_hours => @estimated_hours)%></div>
   <div><%=l(:version_burndown_charts_spent_hours, :spent_hours => @version.spent_hours)%></div>
   <div><%=l(:version_burndown_charts_issues_count, :issues_count => @version.issues_count)%></div>
   <div><%=l(:version_burndown_charts_open_issues_count, :open_issues_count => @version.open_issues_count)%>(<%=@open_pourcent%>%)</div>
