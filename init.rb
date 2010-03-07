@@ -8,7 +8,7 @@ Redmine::Plugin.register :redmine_version_burndown do
   url 'http://daipresents.com/weblog/fujihalab/archives/2010/02/redmine-version-burndown-charts-plugin-release.php '
 
   requires_redmine :version_or_higher => '0.9.0'
-  version '0.0.2'
+  version '0.0.3'
 
   project_module :version_burndown_charts do
     permission :version_burndown_charts_view, :version_burndown_charts => :index
