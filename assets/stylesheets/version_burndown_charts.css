@@ -1,0 +1,8 @@
+.selected {
+    font-weight: bold;
+    font-style: italic;
+}
+
+dd{
+    margin-left:1em;
+}

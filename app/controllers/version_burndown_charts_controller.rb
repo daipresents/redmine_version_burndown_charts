@@ -1,7 +1,7 @@
 class VersionBurndownChartsController < ApplicationController
   unloadable
   menu_item :version_burndown_charts
-  before_filter :find_project, :find_version, :find_version_issues, :find_burndown_dates, :find_version_info, :find_issues_closed_status
+  before_filter :find_project, :find_version, :find_project_versions, :find_version_issues, :find_burndown_dates, :find_version_info, :find_issues_closed_status
   
   def index
     relative_url_path =
@@ -140,9 +140,12 @@ class VersionBurndownChartsController < ApplicationController
   end
 
   def find_project
-    render_error(l(:version_burndown_charts_project_nod_found)) and return unless params[:project_id]
-    @project = Project.find(params[:project_id])
-    render_error(l(:version_burndown_charts_project_nod_found)) and return unless @project
+    render_error(l(:version_burndown_charts_project_nod_found, :project_id => 'parameter not found.')) and return unless params[:project_id]
+    begin
+      @project = Project.find(params[:project_id])
+    rescue ActiveRecord::NotFound
+      render_error(l(:version_burndown_charts_project_nod_found, :project_id => params[:project_id])) and return unless @project
+    end 
   end
 
   def find_version
@@ -150,15 +153,27 @@ class VersionBurndownChartsController < ApplicationController
       @version = Version.find(params[:version_id])
     else
       # First display case.
-      @version = @project.current_version
+      @version = @project.versions.find(:first, :order => 'effective_date desc')
     end
 
     render_error(l(:version_burndown_charts_version_not_found)) and return unless @version
 
     unless @version.due_date
-      flash[:error] = l(:version_burndown_charts_version_due_date_not_found)
+      flash[:error] = l(:version_burndown_charts_version_due_date_not_found, :version_name => @version.name)
       render :action => "index" and return false
     end
+  end
+
+  def find_project_versions
+    @open_versions = @project.versions.find_by_sql([
+          "select * from versions
+             where effective_date is not NULL and status = 'open' order by effective_date desc"])
+    @locked_versions = @project.versions.find_by_sql([
+          "select * from versions
+             where effective_date is not NULL and status = 'locked' order by effective_date desc"])
+    @closed_versions = @project.versions.find_by_sql([
+          "select * from versions
+             where effective_date is not NULL and status = 'closed' order by effective_date desc"])
   end
 
   def find_version_issues
@@ -168,7 +183,7 @@ class VersionBurndownChartsController < ApplicationController
                estimated_hours is not NULL order by start_date asc",
                  {:version_id => @version.id}])
     if @version_issues.empty?
-      flash[:error] = l(:version_burndown_charts_issues_not_found)
+      flash[:error] = l(:version_burndown_charts_issues_not_found, :version_name => @version.name)
       render :action => "index" and return false
     end
   end
@@ -176,7 +191,7 @@ class VersionBurndownChartsController < ApplicationController
   def find_burndown_dates
     @start_date = @version_issues[0].start_date
     if @version.due_date <= @start_date
-      flash[:error] = l(:version_burndown_charts_version_start_date_invalid)
+      flash[:error] = l(:version_burndown_charts_version_start_date_invalid, :version_name => @version.name)
       render :action => "index" and return false
     end
 
@@ -191,7 +206,7 @@ class VersionBurndownChartsController < ApplicationController
     @closed_pourcent = (@version.closed_pourcent * 100).round / 100
     @open_pourcent = 100 - @closed_pourcent
     unless @version.estimated_hours
-      flash[:error] = l(:version_burndown_charts_issues_start_date_or_estimated_date_not_found)
+      flash[:error] = l(:version_burndown_charts_issues_start_date_or_estimated_date_not_found, :version_name => @version.name)
       render :action => "index" and return false
     end
     @estimated_hours = round(@version.estimated_hours)

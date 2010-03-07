@@ -1,6 +1,7 @@
 <% html_title "#{@version.name} - " + l(:version_burndown_charts) -%>
 <% content_for :header_tags do %>
   <%= javascript_include_tag '/plugin_assets/open_flash_chart/javascripts/swfobject.js' %>
+  <%= stylesheet_link_tag 'version_burndown_charts', :plugin => 'redmine_version_burndown_charts' %>
 <% end %>
 
 <% unless flash[:error] -%>
@@ -20,29 +21,38 @@
   <div><%=l(:version_burndown_charts_sprint_range, :sprint_range => @sprint_range)%></div>
 
   <h4><%= l(:version_burndown_charts_versions_open) %></h4>
-  <ul>
-    <% @project.versions.find_all_by_status('open').each do |version| -%>
-      <li<%= %Q[ class="selected"] if @version.id == version.id %>>
+  <dl>
+    <% @open_versions.each do |version| -%>
+      <dt<%= %Q[ class="selected"] if @version.id == version.id %>>
+        <%= version.effective_date %>
+      </dt>
+      <dd>
         <%= link_to(version.name, :controller => 'version_burndown_charts', :action => 'index', :project_id => @project.id, :version_id => version.id.to_s) %>
-      </li>
+      </dd>
     <% end -%>
-  </ul>
+  </dl>
 
   <h4><%= l(:version_burndown_charts_versions_locked) %></h4>
-  <ul>
-    <% @project.versions.find_all_by_status('locked').each do |version| -%>
-      <li<%= %Q[ class="selected"] if @version.id == version.id %>>
+  <dl>
+    <% @locked_versions.each do |version| -%>
+      <dt<%= %Q[ class="selected"] if @version.id == version.id %>>
+        <%= version.effective_date %>
+      </dt>
+      <dd>
         <%= link_to(version.name, :controller => 'version_burndown_charts', :action => 'index', :project_id => @project.id, :version_id => version.id.to_s) %>
-      </li>
+      </dd>
     <% end -%>
-  </ul>
+  </dl>
 
   <h4><%= l(:version_burndown_charts_versions_closed) %></h4>
-  <ul>
-    <% @project.versions.find_all_by_status('closed').each do |version| -%>
-      <li<%= %Q[ class="selected"] if @version.id == version.id %>>
+  <dl>
+    <% @closed_versions.each do |version| -%>
+      <dt<%= %Q[ class="selected"] if @version.id == version.id %>>
+        <%= version.effective_date %>
+      </dt>
+      <dd>
         <%= link_to(version.name, :controller => 'version_burndown_charts', :action => 'index', :project_id => @project.id, :version_id => version.id.to_s) %>
-      </li>
+      </dd>
     <% end -%>
-  </ul>
+  </dl>
 <% end -%>
