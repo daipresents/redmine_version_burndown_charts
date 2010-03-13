@@ -1,9 +1,9 @@
 = redmine_version_burndown
-‚±‚Ìƒvƒ‰ƒOƒCƒ“‚ÍAƒo[ƒWƒ‡ƒ“‚É‘¶İ‚·‚éƒ`ƒPƒbƒg‚Ì—\’èH”‚©‚çƒo[ƒ“ƒ_ƒEƒ“ƒ`ƒƒ[ƒg‚ğì¬‚µ‚Ü‚·B(Version Burndown Charts Plugin create burndown chart graph for scrum from ticket's estimated hours in target version.)
+ã“ã®ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã¯ã€ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã«å­˜åœ¨ã™ã‚‹ãƒã‚±ãƒƒãƒˆã®äºˆå®šå·¥æ•°ã‹ã‚‰ãƒãƒ¼ãƒ³ãƒ€ã‚¦ãƒ³ãƒãƒ£ãƒ¼ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚(Version Burndown Charts Plugin create burndown chart graph for scrum from ticket's estimated hours in target version.)
 
-== ‹@”\
-- ƒo[ƒ“ƒ_ƒEƒ“ƒ`ƒƒ[ƒg‚ÌŠJn“ú‚ÍAƒo[ƒWƒ‡ƒ““à‚É‚ ‚éƒ`ƒPƒbƒg‚Ì’†‚ÅAÅ‚à‘‚¢ŠJn“ú‚Æ‚È‚è‚Ü‚·B(The start date of the burndown chart is assumed to be earliest start date in the ticket in the version.)
-- ÀÑ‚Ìü‚ÍAƒ`ƒPƒbƒg‚ÌŠ®—¹“úiƒWƒƒ[ƒiƒ‹ƒtƒ@ƒCƒ‹j‚ÆA‚»‚Ìƒ`ƒPƒbƒg‚Ì—\’èH”‚ÅŒvZ‚µ‚Ä‚¢‚Ü‚·B(The line of performanse is calculated by the completion date of the ticket (by journal file) and the ticket's estimated hours. )
+== æ©Ÿèƒ½
+- ãƒãƒ¼ãƒ³ãƒ€ã‚¦ãƒ³ãƒãƒ£ãƒ¼ãƒˆã®é–‹å§‹æ—¥ã¯ã€ãƒãƒ¼ã‚¸ãƒ§ãƒ³å†…ã«ã‚ã‚‹ãƒã‚±ãƒƒãƒˆã®ä¸­ã§ã€æœ€ã‚‚æ—©ã„é–‹å§‹æ—¥ã¨ãªã‚Šã¾ã™ã€‚(The start date of the burndown chart is assumed to be earliest start date in the ticket in the version.)
+- å®Ÿç¸¾ã®ç·šã¯ã€ãƒã‚±ãƒƒãƒˆã®å®Œäº†æ—¥æ™‚ï¼ˆã‚¸ãƒ£ãƒ¼ãƒŠãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ï¼‰ã¨ã€ãã®ãƒã‚±ãƒƒãƒˆã®äºˆå®šå·¥æ•°ã§è¨ˆç®—ã—ã¦ã„ã¾ã™ã€‚(The line of performanse is calculated by the completion date of the ticket (by journal file) and the ticket's estimated hours. )
 
 == Plugin Instration
 - Download open_flash_chart 2.1.1.
