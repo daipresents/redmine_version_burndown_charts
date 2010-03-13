@@ -214,7 +214,7 @@ class VersionBurndownChartsController < ApplicationController
   end
 
   def find_issues_closed_status
-    @closed_statuses = IssueStatus.find_all_by_is_closed(1)
+    @closed_statuses = IssueStatus.find_all_by_is_closed(true)
     logger.debug("@closed_statuses #{@closed_statuses}")
   end
 end
