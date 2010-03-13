@@ -1,3 +1,31 @@
-= version_burndown
+= redmine_version_burndown
+このプラグインは、バージョンに存在するチケットの予定工数からバーンダウンチャートを作成します。(Version Burndown Charts Plugin create burndown chart graph for scrum from ticket's estimated hours in target version.)
 
-Description goes here
+== 機能
+- バーンダウンチャートの開始日は、バージョン内にあるチケットの中で、最も早い開始日となります。(The start date of the burndown chart is assumed to be earliest start date in the ticket in the version.)
+- 実績の線は、チケットの完了日時（ジャーナルファイル）と、そのチケットの予定工数で計算しています。(The line of performanse is calculated by the completion date of the ticket (by journal file) and the ticket's estimated hours. )
+
+== Plugin Instration
+- Download open_flash_chart 2.1.1.
+- Unpack and move into vendor/plugins.
+- Rename the plugin directory to open_flash_chart.
+- Copy files from open_flash_chart/assets/* to RAILS_ROOT/public
+- Download  Version Burndown Charts.
+- Unpack and move into RAILS_ROOT/vendor/plugins.
+- Rename the plugin directory to version_burndown_charts
+- Restart Redmine.
+- Login and configure the plugin (Administration > Roles and permissions > Permissions report)
+- Configure the project (Project > Settings > Modules).
+- Create version and set due date.
+- Create ticket and set start date, estimated hours.
+- Logged ticket status...
+- Click to version burndown charts menu.
+
+== Note
+- Recent Version:0.0.3
+- This plugin works only Redmine 0.9.0 or higher. 
+- This plugin is tested WEBRick, IE8 or FF3.5.8, MySQL5
+
+== License
+This plugin is licensed under GNU General Public License version 3.
+
