@@ -22,9 +22,7 @@
 - Click to version burndown charts menu.
 
 == Note
-- Recent Version:0.0.4
 - This plugin works only Redmine 0.9.0 or higher. 
-- This plugin is tested WEBRick, IE8 or FF3.5.8, MySQL5
 
 == License
 This plugin is licensed under GNU General Public License version 3.
