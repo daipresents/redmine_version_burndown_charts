@@ -77,7 +77,7 @@ class VersionBurndownChartsController < ApplicationController
     y.set_range(0, @estimated_hours + 1, (@estimated_hours / 4).round)
     chart.y_axis = y
 
-    estimated_line = LineDot.new
+    estimated_line = Line.new
     estimated_line.text = "#{l(:version_burndown_charts_estimated_line)}"
     estimated_line.width = 2
     estimated_line.colour = '#00a497'
@@ -85,7 +85,7 @@ class VersionBurndownChartsController < ApplicationController
     estimated_line.values = estimated_data_array
     chart.add_element(estimated_line)
 
-    performance_line = LineDot.new
+    performance_line = Line.new
     performance_line.text = "#{l(:version_burndown_charts_peformance_line)}"
     performance_line.width = 3
     performance_line.colour = '#bf0000'
