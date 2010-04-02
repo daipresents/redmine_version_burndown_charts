@@ -5,7 +5,7 @@
 - バーンダウンチャートの開始日は、バージョン内にあるチケットの中で、最も早い開始日となります。(The start date of the burndown chart is assumed to be earliest start date in the ticket in the version.)
 - 実績の線は、チケットの完了日時（ジャーナルファイル）と、そのチケットの予定工数で計算しています。(The line of performanse is calculated by the completion date of the ticket (by journal file) and the ticket's estimated hours. )
 
-== Plugin Instration
+== Plugin Installation
 - Download open_flash_chart 2.1.1.
 - Unpack and move into vendor/plugins.
 - Rename the plugin directory to open_flash_chart.
