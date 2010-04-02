@@ -1,7 +1,7 @@
 class VersionBurndownChartsController < ApplicationController
   unloadable
   menu_item :version_burndown_charts
-  before_filter :find_project, :find_version, :find_project_versions, :find_version_issues, :find_burndown_dates, :find_version_info, :find_issues_closed_status
+  before_filter :find_project, :find_versions, :find_version_issues, :find_burndown_dates, :find_version_info, :find_issues_closed_status
   
   def index
     relative_url_path =
@@ -148,12 +148,16 @@ class VersionBurndownChartsController < ApplicationController
     end 
   end
 
-  def find_version
+  def find_versions
+    versions = @project.versions.select(&:effective_date).sort_by(&:effective_date)
+    @open_versions = versions.select{|version| version.status == 'open'}
+    @locked_versions = versions.select{|version| version.status == 'locked'}
+    @closed_versions = versions.select{|version| version.status == 'closed'}
     if params[:version_id]
       @version = Version.find(params[:version_id])
     else
       # First display case.
-      @version = @project.versions.find(:first, :order => 'effective_date desc')
+      @version = @open_versions.first || versions.last
     end
 
     render_error(l(:version_burndown_charts_version_not_found)) and return unless @version
@@ -162,18 +166,6 @@ class VersionBurndownChartsController < ApplicationController
       flash[:error] = l(:version_burndown_charts_version_due_date_not_found, :version_name => @version.name)
       render :action => "index" and return false
     end
-  end
-
-  def find_project_versions
-    @open_versions = @project.versions.find_by_sql([
-          "select * from versions
-             where effective_date is not NULL and status = 'open' order by effective_date desc"])
-    @locked_versions = @project.versions.find_by_sql([
-          "select * from versions
-             where effective_date is not NULL and status = 'locked' order by effective_date desc"])
-    @closed_versions = @project.versions.find_by_sql([
-          "select * from versions
-             where effective_date is not NULL and status = 'closed' order by effective_date desc"])
   end
 
   def find_version_issues
