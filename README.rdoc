@@ -12,7 +12,7 @@
 - Copy files from open_flash_chart/assets/* to RAILS_ROOT/public
 - Download  Version Burndown Charts.
 - Unpack and move into RAILS_ROOT/vendor/plugins.
-- Rename the plugin directory to version_burndown_charts
+- Rename the plugin directory to redmine_version_burndown_charts
 - Restart Redmine.
 - Login and configure the plugin (Administration > Roles and permissions > Permissions report)
 - Configure the project (Project > Settings > Modules).
