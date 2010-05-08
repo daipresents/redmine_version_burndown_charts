@@ -1,0 +1,34 @@
+"no":
+  version_burndown_charts: "Version Burndown Charts"
+  version_burndown_charts_view: "Vis Version Burndown Charts"
+
+  version_burndown_charts_xlegend: "Dato"
+  version_burndown_charts_ylegend: "Time"
+  version_burndown_charts_perfect_line: "Perfekt linje"
+  version_burndown_charts_estimated_line: "Estimert linje"
+  version_burndown_charts_peformance_line: "Ytelseslinje"
+
+  version_burndown_charts_versions: "Versjon"
+  version_burndown_charts_versions_name: "Versjonsnavn"
+  version_burndown_charts_versions_open: "Apen"
+  version_burndown_charts_versions_locked: "Last"
+  version_burndown_charts_versions_closed: "Lukket"
+  version_burndown_charts_version_info: "Versjonsinformasjon"
+  version_burndown_charts_estimated_hours: "Estimert tid:{{estimated_hours}}h"
+  version_burndown_charts_spent_hours: "Tid brukt:{{spent_hours}}t"
+  version_burndown_charts_spent_hours: "Timer brukt:{{spent_hours}}"
+
+  version_burndown_charts_issues_count: "Alle saker:{{issues_count}}"
+  version_burndown_charts_open_issues_count: "Apne saker:{{open_issues_count}}"
+  version_burndown_charts_closed_issues_count: "Lukka saker:{{closed_issues_count}}"
+
+  version_burndown_charts_start_date: "Start:{{start_date}}"
+  version_burndown_charts_due_date: "Frist:{{due_date}}"
+  version_burndown_charts_sprint_range: "Lengde pa sprint:{{sprint_range}}dager"
+  
+  version_burndown_charts_project_nod_found: "Fant ikke prosjekt. prosjekt-id:{{project_id}}"
+  version_burndown_charts_version_not_found: "Fant ikke versjonen i prosjektet."
+  version_burndown_charts_version_due_date_not_found: "Det er ikke satt frist for versjonen. versjonsnavn:{{version_name}}"
+  version_burndown_charts_version_start_date_invalid: "Startdato er satt senere enn fristen. versjonsnavn:{{version_name}}"
+  version_burndown_charts_issues_not_found: "Fant ikke saken i versjonen, eller det er ikke satt startdato eller estimert timetall for saken. versjonsnavn:{{version_name}}"
+  version_burndown_charts_issues_start_date_or_estimated_date_not_found: "Det er ikke satt startdato eller estimert timetall for saken i versjonen. versjonsnavn:{{version_name}}"
