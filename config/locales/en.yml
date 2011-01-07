@@ -5,6 +5,8 @@ en:
   version_burndown_charts_xlegend: "Date"
   version_burndown_charts_ylegend: "Hour"
   version_burndown_charts_perfect_line: "Perfect Line"
+  version_burndown_charts_upper_line: "Upper Line"
+  version_burndown_charts_lower_line: "Lower Line"
   version_burndown_charts_estimated_line: "Estimated Line"
   version_burndown_charts_peformance_line: "Peformance Line"
 
