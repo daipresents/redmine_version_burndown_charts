@@ -84,7 +84,7 @@ class VersionBurndownChartsController < ApplicationController
     chart.x_axis = x
 
     y = YAxis.new
-    y.set_range(0, @estimated_hours + 1, (@estimated_hours / 4).round)
+    y.set_range(0, round(@estimated_hours * 1.2 + 1), (@estimated_hours / 4).round)
     chart.y_axis = y
 
     add_line(chart, "#{l(:version_burndown_charts_upper_line)}", 1, '#dfdf3f', 4, upper_data_array)
@@ -110,7 +110,10 @@ class VersionBurndownChartsController < ApplicationController
     target_issues = @version_issues.select { |issue| issue.due_date == target_date}
     target_hours = 0
     target_issues.each do |issue|
-      target_hours += round(issue.estimated_hours)
+      if issue.rgt - issue.lft == 1
+        logger.debug("#{target_date} id #{issue.id}, estimated hours #{issue.estimated_hours}")
+        target_hours += round(issue.estimated_hours)
+      end
     end
     logger.debug("#{target_date} estimated hours = #{target_hours}")
     return target_hours
@@ -120,16 +123,18 @@ class VersionBurndownChartsController < ApplicationController
     if @version.due_date < target_date
       return 0
     else
-      return (@estimated_hours * multiply - @estimated_hours * multiply * (target_date - @start_date + 1) / (@version.due_date - @start_date + 1))
+      return round(@estimated_hours * multiply - @estimated_hours * multiply * (target_date - @start_date + 1) / (@version.due_date - @start_date + 1))
     end
   end
 
   def calc_performance_hours_by_date(target_date)
     target_hours = 0
     @version_issues.each do |issue|
-      target_hours += calc_issue_performance_hours_by_date(target_date, issue)
+      if issue.rgt - issue.lft == 1
+        target_hours += calc_issue_performance_hours_by_date(target_date, issue)
+      end
     end
-    logger.debug("issues estimated hours #{target_hours} #{target_date}")
+    logger.debug("#{target_date} issues performance hours #{target_hours}")
     return target_hours
   end
 
@@ -147,7 +152,7 @@ class VersionBurndownChartsController < ApplicationController
       @closed_statuses.each do |closed_status|
         logger.debug("closed_status id #{closed_status.id}")
         if journal_detail.value.to_i == closed_status.id
-          logger.debug("#{target_date} issue.estimated_hours #{issue.estimated_hours} id #{issue.id}")
+          logger.debug("#{target_date} id #{issue.id}, issue.estimated_hours #{issue.estimated_hours}")
           return round(issue.estimated_hours)
         end
       end
@@ -161,10 +166,11 @@ class VersionBurndownChartsController < ApplicationController
 
     target_hours = 0
     journal_details_done_ratio.each do |journal_detail|
-      logger.debug("journal_detail_done_ratio id #{journal_detail.id}, ratio #{journal_detail.old_value} -> #{journal_detail.value}")
+      logger.debug("#{target_date} id #{issue.id}, journal_detail id #{journal_detail.id}, done_ratio #{journal_detail.old_value} -> #{journal_detail.value}")
       target_hours += round(issue.estimated_hours * (journal_detail.value.to_i - journal_detail.old_value.to_i) / 100)
     end
 
+    logger.debug("#{target_date} id #{issue.id}, whole #{issue.estimated_hours}, done #{target_hours}")
     return target_hours
   end
 
@@ -172,7 +178,7 @@ class VersionBurndownChartsController < ApplicationController
     unless value
       return 0
     else
-      return (value.to_f * 10.0).round / 10.0
+      return (value.to_f * 1000.0).round / 1000.0
     end
   end
 
