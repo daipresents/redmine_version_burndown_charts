@@ -17,6 +17,7 @@ class VersionBurndownChartsController < ApplicationController
     
     estimated_data_array = []
     performance_data_array = []
+    perfect_data_array = []
     x_labels_data = []
     
     index_date = @start_date - 1
@@ -44,7 +45,8 @@ class VersionBurndownChartsController < ApplicationController
       
       estimated_data_array << round(index_estimated_hours -= calc_estimated_hours_by_date(index_date))
       performance_data_array << round(index_performance_hours -= calc_performance_hours_by_date(index_date))
-      
+      perfect_data_array << 0
+
       logger.debug("#{index_date} index_estimated_hours #{round(index_estimated_hours)}")
       logger.debug("#{index_date} index_performance_hours #{round(index_performance_hours)}")
       
@@ -52,10 +54,11 @@ class VersionBurndownChartsController < ApplicationController
       count += 1
     end
 
-    create_graph(x_labels_data, estimated_data_array, performance_data_array)
+    perfect_data_array.fill {|i| (@estimated_hours - (@estimated_hours / @sprint_range * i)).round }
+    create_graph(x_labels_data, estimated_data_array, performance_data_array, perfect_data_array)
   end
 
-  def create_graph(x_labels_data, estimated_data_array, performance_data_array)
+  def create_graph(x_labels_data, estimated_data_array, performance_data_array, perfect_data_array)
     chart =OpenFlashChart.new
     chart.set_title(Title.new("#{@version.name} #{l(:version_burndown_charts)}"))
     chart.set_bg_colour('#ffffff');
@@ -69,12 +72,12 @@ class VersionBurndownChartsController < ApplicationController
     chart.set_y_legend(y_legend)
 
     x = XAxis.new
-    x.set_range(0, @sprint_range + 2, 1)
+    x.set_range(0, @sprint_range + 1, 1)
     x.set_labels(x_labels_data)
     chart.x_axis = x
 
     y = YAxis.new
-    y.set_range(0, @estimated_hours + 1, (@estimated_hours / 4).round)
+    y.set_range(0, @estimated_hours + 1, (@estimated_hours / 6).round)
     chart.y_axis = y
 
     estimated_line = Line.new
@@ -92,6 +95,14 @@ class VersionBurndownChartsController < ApplicationController
     performance_line.dot_size = 6
     performance_line.values = performance_data_array
     chart.add_element(performance_line)
+
+    perfect_line = Line.new
+    perfect_line.text = "#{l(:version_burndown_charts_perfect_line)}"
+    perfect_line.width = 3
+    perfect_line.colour = '#bbbbbb'
+    perfect_line.dot_size = 6
+    perfect_line.values = perfect_data_array
+    chart.add_element(perfect_line)
 
     render :text => chart.to_s
   end
@@ -140,11 +151,21 @@ class VersionBurndownChartsController < ApplicationController
   end
 
   def find_project
-    render_error(l(:version_burndown_charts_project_nod_found, :project_id => 'parameter not found.')) and return unless params[:project_id]
+
+    logger.debug("params[:project_id].class #{params[:project_id].class}")
+
+    if params[:project_id].blank?
+      flash[:error] = l(:version_burndown_charts_project_nod_found, :project_id => 'parameter not found.')
+      render_404
+      return
+    end
+
     begin
       @project = Project.find(params[:project_id])
-    rescue ActiveRecord::NotFound
-      render_error(l(:version_burndown_charts_project_nod_found, :project_id => params[:project_id])) and return unless @project
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = l(:version_burndown_charts_project_nod_found, :project_id => params[:project_id])
+      render_404
+      return
     end 
   end
 
@@ -160,7 +181,14 @@ class VersionBurndownChartsController < ApplicationController
       @version = @open_versions.first || versions.last
     end
 
-    render_error(l(:version_burndown_charts_version_not_found)) and return unless @version
+    logger.debug("@version.class #{@version.class}")
+    logger.debug("@version.nil? #{@version.nil?}")
+
+    if @version.blank?
+      flash[:error] = l(:version_burndown_charts_no_version_with_due_date)
+      render_404
+      return
+    end
 
     unless @version.due_date
       flash[:error] = l(:version_burndown_charts_version_due_date_not_found, :version_name => @version.name)

@@ -28,6 +28,7 @@
   
   version_burndown_charts_project_nod_found: "Fant ikke prosjekt. prosjekt-id:{{project_id}}"
   version_burndown_charts_version_not_found: "Fant ikke versjonen i prosjektet."
+  version_burndown_charts_no_version_with_due_date: "No version with due date."
   version_burndown_charts_version_due_date_not_found: "Det er ikke satt frist for versjonen. versjonsnavn:{{version_name}}"
   version_burndown_charts_version_start_date_invalid: "Startdato er satt senere enn fristen. versjonsnavn:{{version_name}}"
   version_burndown_charts_issues_not_found: "Fant ikke saken i versjonen, eller det er ikke satt startdato eller estimert timetall for saken. versjonsnavn:{{version_name}}"

@@ -7,12 +7,18 @@
 
 == Plugin Installation
 - Download open_flash_chart 2.1.1.
-- Unpack and move into vendor/plugins.
-- Rename the plugin directory to open_flash_chart.
+ - Unpack and move into vendor/plugins.
+ - Rename the plugin directory to open_flash_chart.
+ − If you want to get from Github, please use following command.
+     cd ${RAILS_ROOT}
+     ./script/plugin install git://github.com/pullmonkey/open_flash_chart.git
 - Copy files from open_flash_chart/assets/* to RAILS_ROOT/public
 - Download  Version Burndown Charts.
 - Unpack and move into RAILS_ROOT/vendor/plugins.
 - Rename the plugin directory to redmine_version_burndown_charts
+ - If you want to get from GIthub, please use following command.
+     cd ${RAILS_ROOT}
+     git clone git://github.com/daipresents/redmine_version_burndown_charts.git vendor/plugins/redmine_version_burndown_ch
 - Restart Redmine.
 - Login and configure the plugin (Administration > Roles and permissions > Permissions report)
 - Configure the project (Project > Settings > Modules).
@@ -22,7 +28,7 @@
 - Click to version burndown charts menu.
 
 == Note
-- This plugin works only Redmine 0.9.0 or higher. 
+- I tested this plugin Redmine 1.0.5 + MySQL5.5. 
 
 == License
 This plugin is licensed under GNU General Public License version 3.
