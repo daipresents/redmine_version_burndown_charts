@@ -18,7 +18,7 @@
 - Rename the plugin directory to redmine_version_burndown_charts
  - If you want to get from GIthub, please use following command.
      cd ${RAILS_ROOT}
-     git clone git://github.com/daipresents/redmine_version_burndown_charts.git vendor/plugins/redmine_version_burndown_ch
+     git clone git://github.com/daipresents/redmine_version_burndown_charts.git vendor/plugins/redmine_version_burndown_chart
 - Restart Redmine.
 - Login and configure the plugin (Administration > Roles and permissions > Permissions report)
 - Configure the project (Project > Settings > Modules).
