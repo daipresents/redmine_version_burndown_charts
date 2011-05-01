@@ -54,7 +54,7 @@ class VersionBurndownChartsController < ApplicationController
       count += 1
     end
 
-    perfect_data_array.fill {|i| (@estimated_hours - (@estimated_hours / @sprint_range * i)).round }
+    perfect_data_array.fill {|i| round(@estimated_hours - (@estimated_hours / @sprint_range * i)) }
     create_graph(x_labels_data, estimated_data_array, performance_data_array, perfect_data_array)
   end
 
@@ -136,7 +136,7 @@ class VersionBurndownChartsController < ApplicationController
     unless value
       return 0
     else
-      return (value.to_f * 10.0).round / 10.0
+      return (value.to_f * 1000.0).round / 1000.0
     end
   end
 
