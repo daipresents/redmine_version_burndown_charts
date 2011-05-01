@@ -80,31 +80,21 @@ class VersionBurndownChartsController < ApplicationController
     y.set_range(0, @estimated_hours + 1, (@estimated_hours / 6).round)
     chart.y_axis = y
 
-    estimated_line = Line.new
-    estimated_line.text = "#{l(:version_burndown_charts_estimated_line)}"
-    estimated_line.width = 2
-    estimated_line.colour = '#00a497'
-    estimated_line.dot_size = 4
-    estimated_line.values = estimated_data_array
-    chart.add_element(estimated_line)
-
-    performance_line = Line.new
-    performance_line.text = "#{l(:version_burndown_charts_peformance_line)}"
-    performance_line.width = 3
-    performance_line.colour = '#bf0000'
-    performance_line.dot_size = 6
-    performance_line.values = performance_data_array
-    chart.add_element(performance_line)
-
-    perfect_line = Line.new
-    perfect_line.text = "#{l(:version_burndown_charts_perfect_line)}"
-    perfect_line.width = 3
-    perfect_line.colour = '#bbbbbb'
-    perfect_line.dot_size = 6
-    perfect_line.values = perfect_data_array
-    chart.add_element(perfect_line)
+    add_line(chart, "#{l(:version_burndown_charts_estimated_line)}", 2, '#00a497', 4, estimated_data_array)
+    add_line(chart, "#{l(:version_burndown_charts_peformance_line)}", 3, '#bf0000', 6, performance_data_array)
+    add_line(chart, "#{l(:version_burndown_charts_perfect_line)}", 3, '#bbbbbb', 6, perfect_data_array)
 
     render :text => chart.to_s
+  end
+
+  def add_line(chart, text, width, colour, dot_size, values)
+    my_line = Line.new
+    my_line.text = text
+    my_line.width = width
+    my_line.colour = colour
+    my_line.dot_size = dot_size
+    my_line.values = values
+    chart.add_element(my_line)
   end
   
   def calc_estimated_hours_by_date(target_date)
