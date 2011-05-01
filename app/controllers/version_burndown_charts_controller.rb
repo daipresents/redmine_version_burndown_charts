@@ -106,6 +106,9 @@ class VersionBurndownChartsController < ApplicationController
   end
 
   def is_leaf(issue)
+    if !(defined?(issue.rgt) and defined?(issue.lft)) then
+      return true
+    end
     if issue.rgt - issue.lft == 1 then
       return true
     else
