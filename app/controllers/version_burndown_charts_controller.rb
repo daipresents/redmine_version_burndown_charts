@@ -46,7 +46,8 @@ class VersionBurndownChartsController < ApplicationController
       end
       
       estimated_data_array << round(index_estimated_hours -= calc_estimated_hours_by_date(index_date))
-      performance_data_array << round(index_performance_hours -= calc_performance_hours_by_date(index_date))
+      index_performance_hours = calc_performance_hours_by_date(index_date)
+      performance_data_array << round(@estimated_hours - index_performance_hours)
       perfect_data_array << 0
       upper_data_array << 0
       lower_data_array << 0
@@ -131,25 +132,45 @@ class VersionBurndownChartsController < ApplicationController
     target_hours = 0
     @version_issues.each do |issue|
       next unless is_leaf(issue)
-      journals = issue.journals.select {|journal| journal.created_on.to_date == target_date}
-      next if journals.empty?
-      
-      journal_details =
-        journals.map(&:details).flatten.select {|detail| 'status_id' == detail.prop_key}
-      next if journal_details.empty?
-      
-      journal_details.each do |journal_detail|
-        logger.debug("journal_detail id #{journal_detail.id}")
-        @closed_statuses.each do |closed_status|
-          logger.debug("closed_status id #{closed_status.id}")
-          if journal_detail.value.to_i == closed_status.id
-            logger.debug("#{target_date} issue.estimated_hours #{issue.estimated_hours} id #{issue.id}")
-            target_hours += round(issue.estimated_hours)
-          end
+      target_hours += calc_issue_performance_hours_by_date(target_date, issue)
+    end
+    logger.debug("issues estimated hours #{target_hours} #{target_date}")
+    return target_hours
+  end
+
+  def calc_issue_performance_hours_by_date(target_date, issue)
+    journals = issue.journals.select {|journal| (journal.created_on.to_date <= target_date)}
+    if journals.empty?
+      return 0
+    end
+
+    journal_details =
+      journals.map(&:details).flatten.select {|detail| 'status_id' == detail.prop_key}
+
+    journal_details.each do |journal_detail|
+      logger.debug("journal_detail id #{journal_detail.id}")
+      @closed_statuses.each do |closed_status|
+        logger.debug("closed_status id #{closed_status.id}")
+        if journal_detail.value.to_i == closed_status.id
+          logger.debug("#{target_date} id #{issue.id}, issue.estimated_hours #{issue.estimated_hours}")
+          return round(issue.estimated_hours)
         end
       end
     end
-    logger.debug("issues estimated hours #{target_hours} #{target_date}")
+
+    journal_details_done_ratio =
+      journals.map(&:details).flatten.select {|detail| 'done_ratio' == detail.prop_key}
+    if journal_details_done_ratio.empty?
+      return 0
+    end
+
+    target_hours = 0
+    journal_details_done_ratio.each do |journal_detail|
+      logger.debug("#{target_date} id #{issue.id}, journal_detail id #{journal_detail.id}, done_ratio #{journal_detail.old_value} -> #{journal_detail.value}")
+      target_hours += round(issue.estimated_hours * (journal_detail.value.to_i - journal_detail.old_value.to_i) / 100)
+    end
+
+    logger.debug("#{target_date} id #{issue.id}, whole #{issue.estimated_hours}, done #{target_hours}")
     return target_hours
   end
 
