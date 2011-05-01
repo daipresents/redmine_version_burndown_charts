@@ -18,6 +18,8 @@ class VersionBurndownChartsController < ApplicationController
     estimated_data_array = []
     performance_data_array = []
     perfect_data_array = []
+    upper_data_array = []
+    lower_data_array = []
     x_labels_data = []
     
     index_date = @start_date - 1
@@ -46,6 +48,8 @@ class VersionBurndownChartsController < ApplicationController
       estimated_data_array << round(index_estimated_hours -= calc_estimated_hours_by_date(index_date))
       performance_data_array << round(index_performance_hours -= calc_performance_hours_by_date(index_date))
       perfect_data_array << 0
+      upper_data_array << 0
+      lower_data_array << 0
 
       logger.debug("#{index_date} index_estimated_hours #{round(index_estimated_hours)}")
       logger.debug("#{index_date} index_performance_hours #{round(index_performance_hours)}")
@@ -55,10 +59,12 @@ class VersionBurndownChartsController < ApplicationController
     end
 
     perfect_data_array.fill {|i| round(@estimated_hours - (@estimated_hours / @sprint_range * i)) }
-    create_graph(x_labels_data, estimated_data_array, performance_data_array, perfect_data_array)
+    upper_data_array.fill {|i| round((@estimated_hours - (@estimated_hours / @sprint_range * i)) * 1.2) }
+    lower_data_array.fill {|i| round((@estimated_hours - (@estimated_hours / @sprint_range * i)) * 0.8) }
+    create_graph(x_labels_data, estimated_data_array, performance_data_array, perfect_data_array, upper_data_array, lower_data_array)
   end
 
-  def create_graph(x_labels_data, estimated_data_array, performance_data_array, perfect_data_array)
+  def create_graph(x_labels_data, estimated_data_array, performance_data_array, perfect_data_array, upper_data_array, lower_data_array)
     chart =OpenFlashChart.new
     chart.set_title(Title.new("#{@version.name} #{l(:version_burndown_charts)}"))
     chart.set_bg_colour('#ffffff');
@@ -77,12 +83,14 @@ class VersionBurndownChartsController < ApplicationController
     chart.x_axis = x
 
     y = YAxis.new
-    y.set_range(0, @estimated_hours + 1, (@estimated_hours / 6).round)
+    y.set_range(0, round(@estimated_hours * 1.2 + 1), (@estimated_hours / 6).round)
     chart.y_axis = y
 
+    add_line(chart, "#{l(:version_burndown_charts_upper_line)}", 1, '#dfdf3f', 4, upper_data_array)
+    add_line(chart, "#{l(:version_burndown_charts_lower_line)}", 1, '#3f3fdf', 4, lower_data_array)
+    add_line(chart, "#{l(:version_burndown_charts_perfect_line)}", 3, '#bbbbbb', 6, perfect_data_array)
     add_line(chart, "#{l(:version_burndown_charts_estimated_line)}", 2, '#00a497', 4, estimated_data_array)
     add_line(chart, "#{l(:version_burndown_charts_peformance_line)}", 3, '#bf0000', 6, performance_data_array)
-    add_line(chart, "#{l(:version_burndown_charts_perfect_line)}", 3, '#bbbbbb', 6, perfect_data_array)
 
     render :text => chart.to_s
   end
