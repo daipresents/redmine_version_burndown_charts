@@ -104,11 +104,20 @@ class VersionBurndownChartsController < ApplicationController
     my_line.values = values
     chart.add_element(my_line)
   end
-  
+
+  def is_leaf(issue)
+    if issue.rgt - issue.lft == 1 then
+      return true
+    else
+      return false
+    end
+  end
+
   def calc_estimated_hours_by_date(target_date)
     target_issues = @version_issues.select { |issue| issue.due_date == target_date}
     target_hours = 0
     target_issues.each do |issue|
+      next unless is_leaf(issue)
       target_hours += round(issue.estimated_hours)
     end
     logger.debug("#{target_date} estimated hours = #{target_hours}")
@@ -118,6 +127,7 @@ class VersionBurndownChartsController < ApplicationController
   def calc_performance_hours_by_date(target_date)
     target_hours = 0
     @version_issues.each do |issue|
+      next unless is_leaf(issue)
       journals = issue.journals.select {|journal| journal.created_on.to_date == target_date}
       next if journals.empty?
       
