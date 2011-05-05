@@ -5,6 +5,8 @@ ja:
   version_burndown_charts_xlegend: "Date"
   version_burndown_charts_ylegend: "Hour"
   version_burndown_charts_perfect_line: "理想ライン"
+  version_burndown_charts_upper_line: "上限ライン"
+  version_burndown_charts_lower_line: "下限ライン"
   version_burndown_charts_estimated_line: "予想ライン"
   version_burndown_charts_peformance_line: "実績ライン"
   version_burndown_charts_spent_line: "詳細実績ライン"

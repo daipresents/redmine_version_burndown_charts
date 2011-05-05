@@ -18,6 +18,8 @@ class VersionBurndownChartsController < ApplicationController
     estimated_data_array = []
     performance_data_array = []
     perfect_data_array = []
+    upper_data_array = []
+    lower_data_array = []
     x_labels_data = []
     
     index_date = @start_date - 1
@@ -44,8 +46,11 @@ class VersionBurndownChartsController < ApplicationController
       end
       
       estimated_data_array << round(index_estimated_hours -= calc_estimated_hours_by_date(index_date))
-      performance_data_array << round(index_performance_hours -= calc_performance_hours_by_date(index_date))
+      index_performance_hours = calc_performance_hours_by_date(index_date)
+      performance_data_array << round(@estimated_hours - index_performance_hours)
       perfect_data_array << 0
+      upper_data_array << 0
+      lower_data_array << 0
 
       logger.debug("#{index_date} index_estimated_hours #{round(index_estimated_hours)}")
       logger.debug("#{index_date} index_performance_hours #{round(index_performance_hours)}")
@@ -54,11 +59,13 @@ class VersionBurndownChartsController < ApplicationController
       count += 1
     end
 
-    perfect_data_array.fill {|i| (@estimated_hours - (@estimated_hours / @sprint_range * i)).round }
-    create_graph(x_labels_data, estimated_data_array, performance_data_array, perfect_data_array)
+    perfect_data_array.fill {|i| round(@estimated_hours - (@estimated_hours / @sprint_range * i)) }
+    upper_data_array.fill {|i| round((@estimated_hours - (@estimated_hours / @sprint_range * i)) * 1.2) }
+    lower_data_array.fill {|i| round((@estimated_hours - (@estimated_hours / @sprint_range * i)) * 0.8) }
+    create_graph(x_labels_data, estimated_data_array, performance_data_array, perfect_data_array, upper_data_array, lower_data_array)
   end
 
-  def create_graph(x_labels_data, estimated_data_array, performance_data_array, perfect_data_array)
+  def create_graph(x_labels_data, estimated_data_array, performance_data_array, perfect_data_array, upper_data_array, lower_data_array)
     chart =OpenFlashChart.new
     chart.set_title(Title.new("#{@version.name} #{l(:version_burndown_charts)}"))
     chart.set_bg_colour('#ffffff');
@@ -77,40 +84,44 @@ class VersionBurndownChartsController < ApplicationController
     chart.x_axis = x
 
     y = YAxis.new
-    y.set_range(0, @estimated_hours + 1, (@estimated_hours / 6).round)
+    y.set_range(0, round(@estimated_hours * 1.2 + 1), (@estimated_hours / 6).round)
     chart.y_axis = y
 
-    estimated_line = Line.new
-    estimated_line.text = "#{l(:version_burndown_charts_estimated_line)}"
-    estimated_line.width = 2
-    estimated_line.colour = '#00a497'
-    estimated_line.dot_size = 4
-    estimated_line.values = estimated_data_array
-    chart.add_element(estimated_line)
-
-    performance_line = Line.new
-    performance_line.text = "#{l(:version_burndown_charts_peformance_line)}"
-    performance_line.width = 3
-    performance_line.colour = '#bf0000'
-    performance_line.dot_size = 6
-    performance_line.values = performance_data_array
-    chart.add_element(performance_line)
-
-    perfect_line = Line.new
-    perfect_line.text = "#{l(:version_burndown_charts_perfect_line)}"
-    perfect_line.width = 3
-    perfect_line.colour = '#bbbbbb'
-    perfect_line.dot_size = 6
-    perfect_line.values = perfect_data_array
-    chart.add_element(perfect_line)
+    add_line(chart, "#{l(:version_burndown_charts_upper_line)}", 1, '#dfdf3f', 4, upper_data_array)
+    add_line(chart, "#{l(:version_burndown_charts_lower_line)}", 1, '#3f3fdf', 4, lower_data_array)
+    add_line(chart, "#{l(:version_burndown_charts_perfect_line)}", 3, '#bbbbbb', 6, perfect_data_array)
+    add_line(chart, "#{l(:version_burndown_charts_estimated_line)}", 2, '#00a497', 4, estimated_data_array)
+    add_line(chart, "#{l(:version_burndown_charts_peformance_line)}", 3, '#bf0000', 6, performance_data_array)
 
     render :text => chart.to_s
   end
-  
+
+  def add_line(chart, text, width, colour, dot_size, values)
+    my_line = Line.new
+    my_line.text = text
+    my_line.width = width
+    my_line.colour = colour
+    my_line.dot_size = dot_size
+    my_line.values = values
+    chart.add_element(my_line)
+  end
+
+  def is_leaf(issue)
+    if !(defined?(issue.rgt) and defined?(issue.lft)) then
+      return true
+    end
+    if issue.rgt - issue.lft == 1 then
+      return true
+    else
+      return false
+    end
+  end
+
   def calc_estimated_hours_by_date(target_date)
     target_issues = @version_issues.select { |issue| issue.due_date == target_date}
     target_hours = 0
     target_issues.each do |issue|
+      next unless is_leaf(issue)
       target_hours += round(issue.estimated_hours)
     end
     logger.debug("#{target_date} estimated hours = #{target_hours}")
@@ -120,25 +131,46 @@ class VersionBurndownChartsController < ApplicationController
   def calc_performance_hours_by_date(target_date)
     target_hours = 0
     @version_issues.each do |issue|
-      journals = issue.journals.select {|journal| journal.created_on.to_date == target_date}
-      next if journals.empty?
-      
-      journal_details =
-        journals.map(&:details).flatten.select {|detail| 'status_id' == detail.prop_key}
-      next if journal_details.empty?
-      
-      journal_details.each do |journal_detail|
-        logger.debug("journal_detail id #{journal_detail.id}")
-        @closed_statuses.each do |closed_status|
-          logger.debug("closed_status id #{closed_status.id}")
-          if journal_detail.value.to_i == closed_status.id
-            logger.debug("#{target_date} issue.estimated_hours #{issue.estimated_hours} id #{issue.id}")
-            target_hours += round(issue.estimated_hours)
-          end
+      next unless is_leaf(issue)
+      target_hours += calc_issue_performance_hours_by_date(target_date, issue)
+    end
+    logger.debug("issues estimated hours #{target_hours} #{target_date}")
+    return target_hours
+  end
+
+  def calc_issue_performance_hours_by_date(target_date, issue)
+    journals = issue.journals.select {|journal| (journal.created_on.to_date <= target_date)}
+    if journals.empty?
+      return 0
+    end
+
+    journal_details =
+      journals.map(&:details).flatten.select {|detail| 'status_id' == detail.prop_key}
+
+    journal_details.each do |journal_detail|
+      logger.debug("journal_detail id #{journal_detail.id}")
+      @closed_statuses.each do |closed_status|
+        logger.debug("closed_status id #{closed_status.id}")
+        if journal_detail.value.to_i == closed_status.id
+          logger.debug("#{target_date} id #{issue.id}, issue.estimated_hours #{issue.estimated_hours}")
+          return round(issue.estimated_hours)
         end
       end
     end
-    logger.debug("issues estimated hours #{target_hours} #{target_date}")
+
+    journal_details_done_ratio =
+      journals.map(&:details).flatten.select {|detail| 'done_ratio' == detail.prop_key}
+    if journal_details_done_ratio.empty?
+      return 0
+    end
+
+    target_hours = 0
+    journal_details_done_ratio.each do |journal_detail|
+      logger.debug("#{target_date} id #{issue.id}, journal_detail id #{journal_detail.id}, done_ratio #{journal_detail.old_value} -> #{journal_detail.value}")
+      target_hours += round(issue.estimated_hours * (journal_detail.value.to_i - journal_detail.old_value.to_i) / 100)
+    end
+
+    logger.debug("#{target_date} id #{issue.id}, whole #{issue.estimated_hours}, done #{target_hours}")
     return target_hours
   end
 
@@ -146,7 +178,7 @@ class VersionBurndownChartsController < ApplicationController
     unless value
       return 0
     else
-      return (value.to_f * 10.0).round / 10.0
+      return (value.to_f * 1000.0).round / 1000.0
     end
   end
 
