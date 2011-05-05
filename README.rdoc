@@ -1,24 +1,24 @@
 = redmine_version_burndown
-* ja:
-	* このプラグインは、バージョンに存在するチケットの予定工数と作業実績からバーンダウンチャートを作成します。
+ja:
+* このプラグインは、バージョンに存在するチケットの予定工数と作業実績からバーンダウンチャートを作成します。
 
-* en:
-	* Version Burndown Charts Plugin create burndown chart graph for scrum from ticket's estimated hours and %Done in target version.
+en:
+* Version Burndown Charts Plugin create burndown chart graph for scrum from ticket's estimated hours and %Done in target version.
 
 == Details
-* ja:
-	* バーンダウンチャートの開始日は、バージョン内にあるチケットの中で、最も早い開始日となります。
-	* 実績の線は、チケットの完了日時（ジャーナルファイル）と、そのチケットの予定工数と進捗を使って計算しています。
+ja:
+* バーンダウンチャートの開始日は、バージョン内にあるチケットの中で、最も早い開始日となります。
+* 実績の線は、チケットの完了日時（ジャーナルファイル）と、そのチケットの予定工数と進捗を使って計算しています。
 
-* en:
-	* The start date of the burndown chart is assumed to be earliest start date in the ticket in the version.
-	* The line of performanse is calculated by the completion date of the ticket (by journal file) and the ticket's estimated hours and %Done. 
+en:
+* The start date of the burndown chart is assumed to be earliest start date in the ticket in the version.
+* The line of performanse is calculated by the completion date of the ticket (by journal file) and the ticket's estimated hours and %Done. 
 
 == Plugin Installation
 * Download open_flash_chart 2.1.1.
-	* Unpack and move into vendor/plugins.
-	* Rename the plugin directory to open_flash_chart.
-	* If you want to get from Github, please use following command.
+* Unpack and move into vendor/plugins.
+* Rename the plugin directory to open_flash_chart.
+ If you want to get from Github, please use following command.
      cd ${RAILS_ROOT}
      ./script/plugin install git://github.com/pullmonkey/open_flash_chart.git
 * Copy files from open_flash_chart/assets/* to RAILS_ROOT/public
