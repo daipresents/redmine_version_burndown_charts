@@ -1,31 +1,31 @@
 = redmine_version_burndown
 * ja:
-** このプラグインは、バージョンに存在するチケットの予定工数と作業実績からバーンダウンチャートを作成します。
+	* このプラグインは、バージョンに存在するチケットの予定工数と作業実績からバーンダウンチャートを作成します。
 
 * en:
-** Version Burndown Charts Plugin create burndown chart graph for scrum from ticket's estimated hours and %Done in target version.
+	* Version Burndown Charts Plugin create burndown chart graph for scrum from ticket's estimated hours and %Done in target version.
 
 == Details
 * ja:
-** バーンダウンチャートの開始日は、バージョン内にあるチケットの中で、最も早い開始日となります。
-** 実績の線は、チケットの完了日時（ジャーナルファイル）と、そのチケットの予定工数と進捗を使って計算しています。
+	* バーンダウンチャートの開始日は、バージョン内にあるチケットの中で、最も早い開始日となります。
+	* 実績の線は、チケットの完了日時（ジャーナルファイル）と、そのチケットの予定工数と進捗を使って計算しています。
 
 * en:
-** The start date of the burndown chart is assumed to be earliest start date in the ticket in the version.
-** The line of performanse is calculated by the completion date of the ticket (by journal file) and the ticket's estimated hours and %Done. 
+	* The start date of the burndown chart is assumed to be earliest start date in the ticket in the version.
+	* The line of performanse is calculated by the completion date of the ticket (by journal file) and the ticket's estimated hours and %Done. 
 
 == Plugin Installation
 * Download open_flash_chart 2.1.1.
-** Unpack and move into vendor/plugins.
-** Rename the plugin directory to open_flash_chart.
-** If you want to get from Github, please use following command.
+	* Unpack and move into vendor/plugins.
+	* Rename the plugin directory to open_flash_chart.
+	* If you want to get from Github, please use following command.
      cd ${RAILS_ROOT}
      ./script/plugin install git://github.com/pullmonkey/open_flash_chart.git
 * Copy files from open_flash_chart/assets/* to RAILS_ROOT/public
 * Download  Version Burndown Charts.
 * Unpack and move into RAILS_ROOT/vendor/plugins.
 * Rename the plugin directory to redmine_version_burndown_charts
-** If you want to get from GIthub, please use following command.
+	* If you want to get from GIthub, please use following command.
      cd ${RAILS_ROOT}
      git clone git://github.com/daipresents/redmine_version_burndown_charts.git vendor/plugins/redmine_version_burndown_chart
 * Restart Redmine.
@@ -37,18 +37,21 @@
 * Click to version burndown charts menu.
 
 == Note
-* 0.1.0
-** I tested this plugin Redmine 1.1.2 + MySQL5.1.
-** Adjust Perfect Line straight.
-** Added Upper and Lower line.
-** Modified caluculation logic that only use child issue's value.
-** Modified meaning of done. This plugin use "% Done" value.
- 0.1.0 feature made by asura(https://github.com/asura). Thank you!
-* 0.0.6
-** I tested this plugin Redmine 1.0.5 + MySQL5.1. 
-** Added feature: Perfect Line
-* 0.0.5
-** I tested this plugin Redmine 0.9.2 + MySQL5.1.
+=== 0.1.0
+* I tested this plugin Redmine 1.1.2 + MySQL5.1.
+* Adjust Perfect Line straight.
+* Added Upper and Lower line.
+* Modified caluculation logic that only use child issue's value.
+* Modified meaning of done. This plugin use "% Done" value.
+
+0.1.0 feature made by asura(https://github.com/asura). Thank you!
+
+=== 0.0.6
+* I tested this plugin Redmine 1.0.5 + MySQL5.1. 
+* Added feature: Perfect Line
+
+=== 0.0.5
+* I tested this plugin Redmine 0.9.2 + MySQL5.1.
 
 == License
 This plugin is licensed under GNU General Public License version 3.
