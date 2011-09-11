@@ -1,0 +1,36 @@
+en:
+  version_burndown_charts: "Burndown"
+  version_burndown_charts_view: "Ver gráfica de 'Burndown'"
+
+  version_burndown_charts_xlegend: "Fecha"
+  version_burndown_charts_ylegend: "Horas"
+  version_burndown_charts_perfect_line: "Línea ideal"
+  version_burndown_charts_upper_line: "Línea superior"
+  version_burndown_charts_lower_line: "Línea inferior"
+  version_burndown_charts_estimated_line: "Estimación"
+  version_burndown_charts_peformance_line: "Restante"
+
+  version_burndown_charts_versions: "Versión"
+  version_burndown_charts_versions_name: "Versión"
+  version_burndown_charts_versions_open: "Abiertas"
+  version_burndown_charts_versions_locked: "Bloqueadas"
+  version_burndown_charts_versions_closed: "Cerradas"
+  version_burndown_charts_version_info: "Información"
+  version_burndown_charts_estimated_hours: "Tiempo estimado: {{estimated_hours}} h"
+  version_burndown_charts_spent_hours: "Tiempo invertido: {{spent_hours}} h"
+
+  version_burndown_charts_issues_count: "Peticiones: {{issues_count}}"
+  version_burndown_charts_open_issues_count: "Abiertas: {{open_issues_count}}"
+  version_burndown_charts_closed_issues_count: "Cerradas: {{closed_issues_count}}"
+
+  version_burndown_charts_start_date: "Fecha de inicio: {{start_date}}"
+  version_burndown_charts_due_date: "Fecha de fin: {{due_date}}"
+  version_burndown_charts_sprint_range: "Duración: {{sprint_range}} días"
+  
+  version_burndown_charts_project_nod_found: "Proyecto no encontrado. project id:{{project_id}}"
+  version_burndown_charts_version_not_found: "Versión no encontrada en el proyecto."
+  version_burndown_charts_no_version_with_due_date: "No hay versiones con fecha asignada."
+  version_burndown_charts_version_due_date_not_found: "La versión no tiene fecha asignada. version name:{{version_name}}"
+  version_burndown_charts_version_start_date_invalid: "La fecha de inicio de la versión es posterior a la de fin. version name:{{version_name}}"
+  version_burndown_charts_issues_not_found: "No se encontraron peticiones en la versión. version name:{{version_name}}"
+  version_burndown_charts_issues_start_date_or_estimated_date_not_found: "Las peticiones de la versión no tienen horas estimadas o fecha de inicio. version name:{{version_name}}"
